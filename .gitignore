@@ -6,12 +6,12 @@ cache/*
 upload/*
 !upload/index.html
 # Ignore some files and directories from the custom directory.
-custom/
-custom/history/*
-custom/blowfish/*
-custom/modulebuilder/*
-custom/working/*
-custom/modules/*/Ext/
+# custom/
+# custom/history/*
+# custom/blowfish/*
+# custom/modulebuilder/*
+# custom/working/*
+# custom/modules/*/Ext/
 custom/modules/unified_search_modules_display.php
 # Ignore AOD indexes
 modules/AOD_Index/Index/*
@@ -102,7 +102,7 @@ tests/_output/*
 BrowserStackLocal
 browserstack.err
 cache/
-custom/**/
+# custom/**/
 .sass-cache/
 
 # Ignore testing environment
