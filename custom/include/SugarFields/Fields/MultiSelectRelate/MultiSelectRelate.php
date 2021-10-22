@@ -306,7 +306,7 @@ class MultiSelectRelate extends SugarFieldBase
     }
 
     /**
-     * @param array $rawField
+     * @param string $rawField
      * @param array $vardef
      * @return string
      */

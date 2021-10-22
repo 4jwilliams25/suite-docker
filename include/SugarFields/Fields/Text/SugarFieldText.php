@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * SugarCRM Community Edition is a customer relationship management program developed by
@@ -56,10 +57,11 @@ class SugarFieldText extends SugarFieldBase
             $displayParams['url2html'] = true;
         }
 
+
         return parent::getDetailViewSmarty($parentFieldArray, $vardef, $displayParams, $tabindex);
     }
 
-    public function getClassicEditView($field_id='description', $value='', $prefix='', $rich_text=false, $maxlength='', $tabindex=1, $cols=80, $rows=4)
+    public function getClassicEditView($field_id = 'description', $value = '', $prefix = '', $rich_text = false, $maxlength = '', $tabindex = 1, $cols = 80, $rows = 4)
     {
         $this->ss->assign('prefix', $prefix);
         $this->ss->assign('field_id', $field_id);

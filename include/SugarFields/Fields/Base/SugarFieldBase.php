@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * SugarCRM Community Edition is a customer relationship management program developed by
@@ -364,7 +365,8 @@ class SugarFieldBase
             }
         }
 
-        if ($displayType === 'ListView'
+        if (
+            $displayType === 'ListView'
             || $displayType === 'popupView'
             || $displayType === 'searchView'
         ) {
@@ -481,7 +483,7 @@ class SugarFieldBase
         if (!empty($displayParams['field'])) {
             $plusField = '';
             foreach ($displayParams['field'] as $key => $value) {
-                $plusField .= ' ' . $key . '="' . $value . '"';//bug 27381
+                $plusField .= ' ' . $key . '="' . $value . '"'; //bug 27381
             }
             $displayParams['field'] = $plusField;
         }

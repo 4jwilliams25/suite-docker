@@ -199,8 +199,6 @@ array (
           0 => 
           array (
             'name' => 'tags_c',
-            'type' => 'MultiSelectRelate',
-            'studio' => 'visible',
             'label' => 'LBL_TAGS',
           ),
         ),
@@ -209,3 +207,4 @@ array (
   ),
 );
 ;
+?>
