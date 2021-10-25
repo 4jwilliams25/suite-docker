@@ -3,14 +3,16 @@
 require_once 'include/SugarFields/Fields/Base/SugarFieldBase.php';
 require_once 'data/SugarBean.php';
 
+
 class SugarFieldTagselect extends SugarFieldBase
 {
-
+    //Returns a list of all existing Tags
     public function getTagList()
     {
-
+        //Create empty tag bean
         $tagBean = BeanFactory::getBean('MCCCD_Tags');
 
+        //get full list of tag beans
         $tagList = $tagBean->get_full_list(
             $order_by = "",
             $where = "",
@@ -20,6 +22,7 @@ class SugarFieldTagselect extends SugarFieldBase
 
         $existingTags =  array();
 
+        //Load tag names from the bean into an array
         for ($i = 0; $i < count($tagList); $i++) {
             $existingTags[$tagList[$i]->id] = $tagList[$i]->name;
         }
@@ -37,6 +40,7 @@ class SugarFieldTagselect extends SugarFieldBase
      */
     public function setup($parentFieldArray, $vardef, $displayParams, $tabindex, $twopass = true)
     {
+        //enable smarty controls
         $this->button = '';
         $this->buttons = '';
         $this->image = '';
@@ -48,15 +52,20 @@ class SugarFieldTagselect extends SugarFieldBase
             $this->ss->right_delimiter = '}';
         }
 
+        //Get tag lists and make it a json object
         $tagList = $this->getTagList();
-        $jsonTagNames = json_encode(array_keys($tagList));
-        $jsonTagIds = json_encode(array_values($tagList));
 
+        //Bust the tag list into key and  value arrays (this saves us some time in the logic hook)
+        $jsonTagIds = json_encode(array_keys($tagList));
+        $jsonTagNames = json_encode(array_values($tagList));
+
+
+        //Create smarty variables
         $this->ss->assign('parentFieldArray', $parentFieldArray);
         $this->ss->assign('vardef', $vardef);
         $this->ss->assign('tabindex', $tabindex);
-        $this->ss->assign('tagNames', $jsonTagNames);
         $this->ss->assign('tagIds', $jsonTagIds);
+        $this->ss->assign('tagNames', $jsonTagNames);
 
         //for adding attributes to the field
 

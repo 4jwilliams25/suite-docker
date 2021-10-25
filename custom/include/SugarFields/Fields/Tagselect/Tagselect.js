@@ -1,49 +1,59 @@
-// SEE IF WE CAN REFACTOR WITH JQUERY
-
-// Method for adding a tag to the UI
 function addTag() {
-  // Pull the tag list and the tag value entered in the input
-  let tagList = JSON.parse($("#tagList").val());
-  let tag = $("#newTag").val();
+  //Pulls values from html
+  let tagNames = JSON.parse($("#tagNames").val());
+  let tagIds = JSON.parse($("#tagIds").val());
+  let tag = $("#tagInput").val();
 
-  // Verify the user entered a valid tag via the verifyTag function
-  // NEEDS TO BE REFACTORED WITH ERROR HANDLING
-  if (verifyTag(tag, tagList)) {
+  //get tagID from value index
+  let tagIndex = tagNames.indexOf(tag);
+  let tagID = tagIds[tagIndex];
+
+  //tag verification
+  if (verifyTag(tag, tagNames)) {
     console.log("Invalid Tag");
+    //Tag not found (throw error)
   }
-  // console.log(tagList);
-  // console.log(tag);
 
-  // Grab the input container and create a new input for any additional tags
+  //add tag id to hidden value
+  if ($("#tags_c").val() === "") {
+    $("#tags_c").val(tagID);
+  } else {
+    let temp = $("#tags_c").val();
+    $("#tags_c").val(temp + "," + tagID);
+  }
+  //creates new input and adds it to the HTML
   let existingDiv = document.getElementById("tagDiv");
   let newInput = document.createElement("div");
-  newInput.id = "tag_" + tag;
+  newInput.id = "tag_" + tagID;
   newInput.innerHTML =
     "<input type='text' id='" +
-    tag +
+    tagID +
     "_input' value='" +
     tag +
-    "' disabled> <button id='" +
-    tag +
+    "' disabled> " +
+    "<button id='" +
+    tagID +
     "_remove'type='button'class='btn btn-danger' onclick='removeTag(" +
     '"' +
-    tag +
+    tagID +
     '"' +
-    ")' title='Remove Tag'> <span class='suitepicon suitepicon-action-minus'></span></button>";
+    ")' title='Remove Tag'>" +
+    " <span class='suitepicon suitepicon-action-minus'></span></button>";
   existingDiv.appendChild(newInput);
-  // Clear out the primary input for any additional tag entries
-  $("#newTag").val("");
+
+  //blanks out the tag input field
+  $("#tagInput").val("");
+  $("#tagInput").focus();
 }
 
-// Handles the auto-complete functionality in the input
+//Controlls auto complete functionality
 function doAutoComplete(fieldOptions) {
-  $("#newTag").autocomplete({
+  $("#tagInput").autocomplete({
     source: fieldOptions,
   });
 }
 
-// Verifies the user entered a valid tag
-// NEEDS REFACTOR TO INCLUDE ERROR HANDLING
+//Checks to make sure the tag the user inputs is in the accepted list
 function verifyTag(tag, tagList) {
   let unexpectedTag = false;
 
@@ -54,10 +64,31 @@ function verifyTag(tag, tagList) {
   return unexpectedTag;
 }
 
-// Handles removing the a tag INPUT and corresponding button
-function removeTag(tag) {
-  let input = document.getElementById(tag + "_input");
-  let button = document.getElementById(tag + "_remove");
+//removes tag from front end
+function removeTag(tagID) {
+  console.log("Removing tag: " + tagID);
+  let selectedTags = $("#tags_c").val();
+
+  if (
+    selectedTags.includes("," + tagID) ||
+    selectedTags.includes(tagID + ",")
+  ) {
+    selectedTags = selectedTags.replace("," + tagID, "");
+    selectedTags = selectedTags.replace(tagID + ",", "");
+    console.log("Multi Tag found");
+  } else if (selectedTags.includes(tagID)) {
+    console.log("Single Tag found");
+    selectedTags = selectedTags.replace(tagID, "");
+  }
+  // else
+  // {
+  //     //Tag not found (throw error)
+  // }
+  $("#tags_c").val(selectedTags);
+  console.log("Value should be: " + selectedTags);
+
+  let input = document.getElementById(tagID + "_input");
+  let button = document.getElementById(tagID + "_remove");
 
   input.remove();
   button.remove();

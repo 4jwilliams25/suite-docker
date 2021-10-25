@@ -1,21 +1,22 @@
+<script src='{sugar_getjspath file="custom/include/SugarFields/Fields/Tagselect/Tagselect.js"}'></script>
+
+{* Not sure if this actually does anything, I think it might have something to do with loading values *}
 {if strlen({{sugarvar key='value' string=true}}) <= 0}
-{assign var="value" value={{sugarvar key='default_value' string=true}} }
+    {assign var="value" value={{sugarvar key='default_value' string=true}} }
 {else}
-{assign var="value" value={{sugarvar key='value' string=true}} }
-{/if}  
+    {assign var="value" value={{sugarvar key='value' string=true}} }
+{/if}
 
 <div id='tagDiv'>
-    <script src='{sugar_getjspath file="custom/include/SugarFields/Fields/Tagselect/Tagselect.js"}'></script>
     <input 
-        type='text' 
-        {* name='{{if empty($displayParams.idName)}}{{sugarvar key='name'}}{{else}}{{$displayParams.idName}}{{/if}}' *}
+        type='hidden' 
         name='tags_c'
-        id='newTag' 
-        onclick='doAutoComplete({{$tagList}})' 
-        value='{$value}' 
+        id='tags_c' 
     />
-    <input type='hidden' value='{{$tagNames}}' id='tagValues' />
-    <input type='hidden' value='{{$tagIds}}' id='tagKeys' />
+    <input type='hidden' value='{{$tagNames}}' id='tagNames' /> 
+    <input type='hidden' value='{{$tagIds}}' id='tagIds' /> 
+
+    <input type='text' onclick = 'doAutoComplete({{$tagNames}})' id='tagInput' />
     <button 
         type="button" 
         class="btn btn-danger email-address-add-button" 
@@ -23,6 +24,5 @@
         onclick=addTag()
     >
         <span class="suitepicon suitepicon-action-plus"></span>
-        <span></span>
     </button>
 </div>
