@@ -40,6 +40,8 @@ class SugarFieldTagselect extends SugarFieldBase
      */
     public function setup($parentFieldArray, $vardef, $displayParams, $tabindex, $twopass = true)
     {
+        LoggerManager::getLogger()->fatal($vardef['value']);
+
         //enable smarty controls
         $this->button = '';
         $this->buttons = '';
