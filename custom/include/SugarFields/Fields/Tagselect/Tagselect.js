@@ -1,8 +1,8 @@
 function addTag() {
   //Pulls values from html
-  let tagNames = JSON.parse($("#tagNames").val());
+  let tagNames = JSON.parse($("#tagNames").val().toLowerCase());
   let tagIds = JSON.parse($("#tagIds").val());
-  let tag = $("#tagInput").val();
+  let tag = $("#tagInput").val().toLowerCase();
 
   //get tagID from value index
   let tagIndex = tagNames.indexOf(tag);
@@ -10,8 +10,10 @@ function addTag() {
 
   //tag verification
   if (verifyTag(tag, tagNames)) {
-    console.log("Invalid Tag");
-    //Tag not found (throw error)
+    // clear out bad data and show the error
+    $("#tagInput").val("");
+    showTagError();
+    return;
   }
 
   //add tag id to hidden value
@@ -48,8 +50,11 @@ function addTag() {
 
 //Controlls auto complete functionality
 function doAutoComplete(fieldOptions) {
+  const upperCaseTags = capitalizeArr(fieldOptions);
+
   $("#tagInput").autocomplete({
-    source: fieldOptions,
+    source: upperCaseTags,
+    appendTo: "#tagDiv",
   });
 }
 
@@ -66,7 +71,6 @@ function verifyTag(tag, tagList) {
 
 //removes tag from front end
 function removeTag(tagID) {
-  console.log("Removing tag: " + tagID);
   let selectedTags = $("#tags_c").val();
 
   if (
@@ -75,21 +79,47 @@ function removeTag(tagID) {
   ) {
     selectedTags = selectedTags.replace("," + tagID, "");
     selectedTags = selectedTags.replace(tagID + ",", "");
-    console.log("Multi Tag found");
   } else if (selectedTags.includes(tagID)) {
-    console.log("Single Tag found");
     selectedTags = selectedTags.replace(tagID, "");
+  } else {
+    showTagError();
   }
-  // else
-  // {
-  //     //Tag not found (throw error)
-  // }
   $("#tags_c").val(selectedTags);
-  console.log("Value should be: " + selectedTags);
 
   let input = document.getElementById(tagID + "_input");
   let button = document.getElementById(tagID + "_remove");
 
   input.remove();
   button.remove();
+}
+
+// Shows a tag error and then hides the error message
+function showTagError() {
+  document.getElementById("tagError").style.display = "block";
+
+  setTimeout(function () {
+    document.getElementById("tagError").style.display = "none";
+  }, 2000);
+}
+
+function capitalizeStr(str) {
+  let lowerStr = str.toLowerCase();
+
+  const arr = lowerStr.split(" ");
+
+  for (let i = 0; i < arr.length; i++) {
+    arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+  }
+
+  const returnStr = arr.join(" ");
+
+  return returnStr;
+}
+
+function capitalizeArr(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    arr[i] = capitalizeStr(arr[i]);
+  }
+
+  return arr;
 }

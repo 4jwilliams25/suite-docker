@@ -23,7 +23,8 @@
     <input type='hidden' value='{{$tagNames}}' id='tagNames' /> 
     <input type='hidden' value='{{$tagIds}}' id='tagIds' /> 
     {* The functional input to add a new tag *}
-    <input type='text' onclick = 'doAutoComplete({{$tagNames}})' id='tagInput' />
+    <label id='tagError' style='display:none; color:red'>Invalid Tag</label>
+    <input type='text' onclick = 'doAutoComplete({{$tagNames}})' id='tagInput' autocomplete='on' />
     <button 
         type="button" 
         class="btn btn-danger email-address-add-button" 
